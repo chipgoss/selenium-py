@@ -53,4 +53,24 @@ selenium-py/
 - Easy to extend (add more tests/pages/locators)
 - No complex setup — runs with basic pip installs
 
+### Python Naming Conventions (PEP 8 Quick Guide)
+This project follows standard Python naming conventions for readability and professionalism:
+
+| Type                | Style                  | Example                              | Notes |
+|---------------------|------------------------|--------------------------------------|-------|
+| Class               | CamelCase              | DuckDuckGoPage                       | Capital words, no underscores |
+| Function / Variable | snake_case             | search_term, get_page_title()        | Lowercase + underscores |
+| Constant            | UPPER_CASE             | MAX_WAIT_TIME = 10                   | All caps + underscores |
+| File / Module       | snake_case.py          | duckduckgo_page.py, test_search.py   | Lowercase + underscores |
+| Private member      | _single_underscore     | _internal_driver                     | "Private" by convention |
+| Special method      | __double_underscores__ | __init__, __str__                    | Dunder methods only |
+
+Quick rules:
+- No camelCase except classes
+- No spaces or hyphens in names
+- Descriptive names (avoid single letters except loop vars like `i`)
+- Files/folders: always lowercase + underscores
+
+This keeps the code clean, consistent, and easy to maintain.
+
 Feel free to clone/fork and add more search engines or assertions. Feedback welcome!
