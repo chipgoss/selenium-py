@@ -23,14 +23,14 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
-            steps {
-                bat """
-                    call venv\\Scripts\\activate
-                    pytest --junitxml=results.xml
-                """
-            }
-        }
+stage('Run Tests') {
+    steps {
+        bat """
+            call venv\\Scripts\\activate
+            pytest tests/ --junitxml=results.xml
+        """
+    }
+}
     }
 
     post {
