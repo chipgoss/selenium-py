@@ -1,32 +1,41 @@
 pipeline {
     agent any
 
+    environment {
+        PYTHONUNBUFFERED = "1"
+    }
+
     stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
-                // Creates a virtual environment and installs your requirements
-                sh '''
-                    python3 -m venv venv
-                    . venv/bin/activate
+                // Using 'bat' for Windows commands
+                bat """
+                    python -m venv venv
+                    call venv\\Scripts\\activate
+                    pip install --upgrade pip
                     pip install -r requirements.txt
-                '''
+                """
             }
         }
 
         stage('Run Tests') {
             steps {
-                // Runs pytest and generates the report
-                sh '''
-                    . venv/bin/activate
-                    pytest --junitxml=results.xml
-                '''
+                bat """
+                    call venv\\Scripts\\activate
+                    pytest --junitxml=results.xml tests/
+                """
             }
         }
     }
 
     post {
         always {
-            // This makes the results show up in Jenkins just like Maven results!
             junit 'results.xml'
         }
     }
