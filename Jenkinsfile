@@ -14,11 +14,10 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                // Using 'bat' for Windows commands
                 bat """
-                    python -m venv venv
+                    "C:\\Users\\cagoss\\AppData\\Local\\Programs\\Python\\Python314\\python.exe" -m venv venv
                     call venv\\Scripts\\activate
-                    pip install --upgrade pip
+                    python -m pip install --upgrade pip
                     pip install -r requirements.txt
                 """
             }
@@ -28,7 +27,7 @@ pipeline {
             steps {
                 bat """
                     call venv\\Scripts\\activate
-                    pytest --junitxml=results.xml tests/
+                    pytest --junitxml=results.xml
                 """
             }
         }
