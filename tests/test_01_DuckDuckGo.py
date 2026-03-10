@@ -35,5 +35,8 @@ def test_duckduck_search(driver):
 
     page.search("Selenium")
 
+    # Give the page 3 seconds to load the results
+    time.sleep(3)
+
     actual_title = driver.title.lower()
     assert "selenium" in actual_title, f"Expected 'selenium' in title, but got '{actual_title}'"
