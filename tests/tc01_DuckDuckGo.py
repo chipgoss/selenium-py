@@ -1,31 +1,39 @@
+import os
+
 import pytest
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from pages.duckduckgo_page import DuckDuckGoPage
 
 
-# Your page class stays the same...
+@pytest.fixture
+def driver():
+    options = Options()
+    # Check if we are running in a Jenkins environment
+    is_jenkins = os.getenv('JENKINS_URL') is not None
 
-def test_duckduck_title():
-    driver = webdriver.Chrome()
-    driver.maximize_window()
+    if is_jenkins:
+        print("Detected Jenkins: Forcing Headless Mode")
+        options.add_argument("--headless")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+    else:
+        print("Detected Local Environment: Opening Browser Window")
+        options.add_argument("--start-maximized")
 
-    try:
-        page = DuckDuckGoPage(driver)
-        page.open()
+    driver = webdriver.Chrome(options=options)
+    yield driver
+    driver.quit()
 
-        if page.is_title_matches():
-            print("PASS: Title matches!")
-        else:
-            print("FAIL: Title doesn't match.")
 
-        page.search("Selenium")
+def test_duckduck_search(driver):
+    page = DuckDuckGoPage(driver)
+    page.open()
 
-        #asserts title page of search results
-        actual_title = page.get_title().lower()
-        if "selenium" in actual_title:
-            print("PASS: Search worked!")
-        else:
-            print("FAIL: Search title wrong:", actual_title)
+    # Pytest uses asserts to report status to Jenkins
+    assert page.is_title_matches(), "Title does not match on homepage!"
 
-    finally:
-        driver.quit()  # always runs—even if search bombs
+    page.search("Selenium")
+
+    actual_title = driver.title.lower()
+    assert "selenium" in actual_title, f"Expected 'selenium' in title, but got '{actual_title}'"
