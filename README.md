@@ -73,4 +73,22 @@ Quick rules:
 
 This keeps the code clean, consistent, and easy to maintain.
 
+## Jenkins CI/CD Setup
+This project is configured to run automatically on a Windows-based Jenkins server using a Declarative Pipeline.
+
+### Prerequisites
+- **Python 3.14+**: Installed at `C:\Users\cagoss\AppData\Local\Programs\Python\Python314`
+- **Chrome Browser**: Installed on the Jenkins agent (runs in `--headless` mode).
+- **Jenkins Plugins**: JUnit Plugin, Pipeline.
+
+### Local Execution
+To run these tests manually on your machine:
+1. Create a virtual environment: `python -m venv venv`
+2. Activate it: `venv\Scripts\activate`
+3. Install dependencies: `pip install -r requirements.txt`
+4. Run tests: `pytest tests/ --junitxml=results.xml`
+
+### Jenkins Configuration Note
+The `Jenkinsfile` uses absolute paths for the Python executable to ensure the Jenkins Service (running as `LocalSystem` or `cagoss`) can locate the environment. If your Python installation path differs, update the `Install Dependencies` stage in the `Jenkinsfile`.
+
 Feel free to clone/fork and add more search engines or assertions. Feedback welcome!
