@@ -10,7 +10,6 @@ from pages.duckduckgo_page import DuckDuckGoPage
 @pytest.fixture
 def driver():
     options = Options()
-    # Check if we are running in a Jenkins environment
     is_jenkins = os.getenv('JENKINS_URL') is not None
 
     if is_jenkins:
@@ -31,13 +30,13 @@ def test_duckduck_search(driver):
     page = DuckDuckGoPage(driver)
     page.open()
 
-    # Pytest uses asserts to report status to Jenkins
     assert page.is_title_matches(), "Title does not match on homepage!"
 
-    page.search("Selenium")
+    page.search("Selenium")        # Make sure this actually types and submits
 
-    # Give the page 3 seconds to load the results
-    time.sleep(3)
+    time.sleep(3)                  # Wait for results to load
 
     actual_title = driver.title.lower()
     assert "selenium" in actual_title, f"Expected 'selenium' in title, but got '{actual_title}'"
+
+    print("Test passed successfully!")
