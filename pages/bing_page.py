@@ -9,8 +9,7 @@ from locators.bing_locators import BingLocators   # ← fixed import
 class BingPage:
     def __init__(self, driver):
         self.driver = driver
-        self.wait = WebDriverWait(driver, 10)  # ← add this
-        self.URL = "https://bing.com/"
+        self.wait = WebDriverWait(driver, 10)
         self.PAGE_TITLE = BingLocators.PAGE_TITLE
         self.SEARCH_BOX = BingLocators.SEARCH_BOX
 
