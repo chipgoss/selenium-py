@@ -1,13 +1,15 @@
 import time
-
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.wait import WebDriverWait
 
 from locators.bing_locators import BingLocators   # ← fixed import
 
 class BingPage:
     def __init__(self, driver):
         self.driver = driver
+        self.wait = WebDriverWait(driver, 10)  # ← add this
         self.URL = "https://bing.com/"
         self.PAGE_TITLE = BingLocators.PAGE_TITLE
         self.SEARCH_BOX = BingLocators.SEARCH_BOX
@@ -24,7 +26,10 @@ class BingPage:
         return expected in actual_title   # more flexible check
 
     def search(self, term):
-        box = self.driver.find_element(By.ID, BingLocators.SEARCH_BOX)
+        #box = self.driver.find_element(By.ID, BingLocators.SEARCH_BOX)
+
+        box = self.wait.until(EC.element_to_be_clickable((By.ID, self.SEARCH_BOX)))
+
         box.clear()
         box.send_keys(term)
         box.submit()
