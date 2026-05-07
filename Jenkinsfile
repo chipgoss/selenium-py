@@ -27,7 +27,7 @@ stage('Run Tests') {
     steps {
         bat """
             call venv\\Scripts\\activate
-            pytest tests/ --junitxml=results.xml
+            pytest tests/ --junitxml=results.xml --alluredir=allure-results
         """
     }
 }
@@ -36,6 +36,7 @@ stage('Run Tests') {
     post {
         always {
             junit 'results.xml'
+            allure includeProperties: false, jdk: '', results: [[path: 'allure-results']]
         }
     }
 }
