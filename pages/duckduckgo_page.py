@@ -23,7 +23,7 @@ class DuckDuckGoPage:
         return expected in actual_title   # more flexible check
 
     def search(self, term):
-        box = self.driver.find_element(By.ID, "searchbox_input")
+        box = self.driver.find_element(By.NAME, "q")
         box.clear()
         box.send_keys(term)
         box.send_keys(Keys.RETURN)

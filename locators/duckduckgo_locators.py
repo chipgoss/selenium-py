@@ -7,4 +7,4 @@ class DuckDuckGoLocators:
     PAGE_TITLE = (By.TAG_NAME, "title")
 
     # We'll add the search box next
-    SEARCH_BOX = (By.ID, "search_form_input")  # DDG's search field ID—stable
+    SEARCH_BOX = (By.NAME, "q")  # DDG's search field ID—stable
