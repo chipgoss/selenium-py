@@ -161,8 +161,8 @@ The test file contains the pytest fixture (browser setup/teardown) and the actua
 
 **pytest Fixture**
 - Decorated with `@pytest.fixture`
-- Sets up Chrome options (headless for Jenkins, windowed locally)
-- Detects Jenkins vs local via `JENKINS_URL` environment variable
+- Sets up Chrome options (headless in Jenkins or GitHub Actions, windowed locally)
+- Detects CI via the `JENKINS_URL` or `GITHUB_ACTIONS` environment variable
 - Yields the driver to the test, then quits after the test completes
 
 **Test Function**
@@ -182,9 +182,12 @@ from pages.login_page import LoginPage
 @pytest.fixture
 def driver():
     options = Options()
-    is_jenkins = os.getenv('JENKINS_URL') is not None
+    is_ci = (
+        os.getenv('JENKINS_URL') is not None
+        or os.getenv('GITHUB_ACTIONS', '').lower() == 'true'
+    )
 
-    if is_jenkins:
+    if is_ci:
         options.add_argument("--headless")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")
@@ -255,9 +258,12 @@ pytest tests/ --alluredir=allure-results
 
 ### Headless Mode Detection
 ```python
-is_jenkins = os.getenv('JENKINS_URL') is not None
+is_ci = (
+    os.getenv('JENKINS_URL') is not None
+    or os.getenv('GITHUB_ACTIONS', '').lower() == 'true'
+)
 ```
-When running in Jenkins, Chrome launches in headless mode with `--no-sandbox` and `--disable-dev-shm-usage` flags required for CI environments.
+When running in Jenkins or GitHub Actions, Chrome launches in headless mode with `--no-sandbox` and `--disable-dev-shm-usage` flags required for CI environments.
 
 ### Required Jenkins Plugins
 - Pipeline
