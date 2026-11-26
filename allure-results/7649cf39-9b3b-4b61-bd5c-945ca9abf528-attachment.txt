@@ -1,2 +1,0 @@
-Detected Local Environment: Opening Browser Window
-Test passed successfully!
