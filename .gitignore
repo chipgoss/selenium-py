@@ -1,2 +1,5 @@
 /tests/sim.py
 __pycache__/
+allure-results/
+reports/
+results.xml
